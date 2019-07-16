@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Sok</title>
+	<meta name="description" content="">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="path/to/image.jpg">
+
+	<!-- <link rel="shortcut icon" href="img/favicon/favicon.png" type="image/png">
+	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png"> -->
+
+	<!-- Цвет мобильного браузера -->
+	<!--	<meta name="theme-color" content="#000">-->
+	<!--	<meta name="msapplication-navbutton-color" content="#000">-->
+	<!--	<meta name="apple-mobile-web-app-status-bar-style" content="#000">-->
+	<link rel="stylesheet" href="css/main.css">
+	
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/formselect.js"></script>
+	<script src="js/common.js"></script>
+</head>
+
+<body>
+	<section class="select-negotiation">
+		<div class="select-negotiation__select form-wraper formselect-radio">
+			<label for="" class="form-wraper__label">Radio</label>
+			<div class="form-wraper__box formselect-radio__value form-box" title="Динамо">
+				<span>Динамо</span>
+			</div>
+			<button type="button" class="form-wraper__button formselect-radio__arrow">
+			</button>
+			<input type="hidden" name="meeting_room" class="formselect-radio__input form-wraper__input bmr-filter-prop" value="dinamo">
+			<ul class="formselect-radio__list">
+				<li class="formselect-radio__item">
+					<input type="radio" id="meeting-room-1" value="dinamo" name="meeting-room">
+					<label for="meeting-room-1">Динамо</label>
+				</li>
+				<li class="formselect-radio__item">
+					<input type="radio" id="meeting-room-2" value="2" name="meeting-room">
+					<label for="meeting-room-2">Переговорная 2</label>
+				</li>
+				<li class="formselect-radio__item">
+					<input type="radio" id="meeting-room-3" value="3" name="meeting-room">
+					<label for="meeting-room-3">Переговорная 3</label>
+				</li>
+				<li class="formselect-radio__item">
+					<input type="radio" id="meeting-room-4" value="4" name="meeting-room" checked>
+					<label for="meeting-room-4">Переговорная 4</label>
+				</li>
+			</ul>
+		</div>
+		<div class="select-negotiation__select form-wraper formselect-radio">
+			<label for="" class="form-wraper__label">Link</label>
+			<div class="form-wraper__box formselect-radio__value form-box" title="10 человек">
+				<span>до 8 человек</span>
+			</div>
+			<button type="button" class="form-wraper__button formselect-radio__arrow">
+			</button>
+			<input type="hidden" name="" class="formselect-radio__input form-wraper__input bmr-filter-prop" value="3">
+			<div class="formselect-radio__list">
+				<div class="formselect-radio__item">
+					<a href="#">до 3 человек</a>
+				</div>
+				<div class="formselect-radio__item">
+					<a href="#" class="active">до 8 человек</a>
+				</div>
+				<div class="formselect-radio__item">
+					<a href="#">до 12 человек</a>
+				</div>
+			</div>
+		</div>
+		<div class="select-negotiation__select form-wraper form-multiselect">
+			<label for="" class="form-wraper__label">Checkbox</label>
+			<div class="form-wraper__box formselect-radio__value form-box" title="ничего не выбранно">
+				<span>ничего не выбранно</span>
+			</div>
+			<button type="button" class="form-wraper__button formselect-radio__arrow">
+			</button>
+			<input type="hidden" name="" class="formselect-radio__input form-wraper__input" value="3">
+			<ul class="formselect-radio__list">
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-1" value="dinamo" name="meeting-room1">
+					<label for="box-1">Динамо</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-2" value="2" name="meeting-room2">
+					<label for="box-2">Переговорная 2</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-3" value="3" name="meeting-room3">
+					<label for="box-3">Переговорная 3</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-4" value="4" name="meeting-room4">
+					<label for="box-4">Переговорная 4</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-5" value="4" name="meeting-room5">
+					<label for="box-5">Переговорная 5</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-6" value="4" name="meeting-room6">
+					<label for="box-6">Переговорная 6</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-7" value="4" name="meeting-room7">
+					<label for="box-7">Переговорная 7</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-8" value="4" name="meeting-room8">
+					<label for="box-8">Переговорная 8</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-9" value="4" name="meeting-room9">
+					<label for="box-9">Переговорная 9</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-10" value="4" name="meeting-room10">
+					<label for="box-10">Переговорная 10</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-11" value="4" name="meeting-room11">
+					<label for="box-11">Переговорная 11</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-12" value="4" name="meeting-room12">
+					<label for="box-12">Переговорная 12</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box13" value="4" name="meeting-room13">
+					<label for="box13">Переговорная 13</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-14" value="4" name="meeting-room14">
+					<label for="box-14">Переговорная 14</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-15" value="4" name="meeting-room15">
+					<label for="box-15">Переговорная 15</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-16" value="4" name="meeting-room16">
+					<label for="box-16">Переговорная 16</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-17" value="4" name="meeting-room17">
+					<label for="box-17">Переговорная 17</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-18" value="4" name="meeting-room18">
+					<label for="box-18">Переговорная 18</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-19" value="4" name="meeting-room19">
+					<label for="box-19">Переговорная 19</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-20" value="4" name="meeting-room20">
+					<label for="box-20">Переговорная 20</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-21" value="4" name="meeting-room21">
+					<label for="box-21">Переговорная 21</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-22" value="4" name="meeting-room22" checked>
+					<label for="box-22">Переговорная 22</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-23" value="4" name="meeting-room23">
+					<label for="box-23">Переговорная 23</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-24" value="4" name="meeting-room24">
+					<label for="box-24">Переговорная 24</label>
+				</li>
+				<li class="formselect-radio__item formselect-radio__item_mark">
+					<input type="checkbox" id="box-25" value="4" name="meeting-room25">
+					<label for="box-25">Переговорная 25</label>
+				</li>
+			</ul>
+		</div>
+	</section>
+</body>
+</html>

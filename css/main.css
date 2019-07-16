@@ -1,0 +1,379 @@
+@font-face {
+	font-family: "Lato";
+	src: url("../fonts/LatoRegular.eot?#iefix") format("embedded-opentype"), url("../fonts/LatoRegular.woff") format("woff"), url("../fonts/LatoRegular.ttf") format("truetype");
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: "LatoBlack";
+  src: url("../fonts/LatoBlack.eot?#iefix") format("embedded-opentype"), url("../fonts/LatoBlack.woff") format("woff"), url("../fonts/LatoBlack.ttf") format("truetype");
+  font-weight: 900;
+}
+
+@font-face {
+	font-family: "LatoBold";
+  src: url("../fonts/LatoBold.eot?#iefix") format("embedded-opentype"), url("../fonts/LatoBold.woff") format("woff"), url("../fonts/LatoBold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+@font-face {
+	font-family: "LatoSemibold";
+  src: url("../fonts/LatoSemibold.eot?#iefix") format("embedded-opentype"), url("../fonts/LatoSemibold.woff") format("woff"), url("../fonts/LatoSemibold.ttf") format("truetype");
+  font-weight: 600;
+}
+
+@font-face {
+	font-family: "LatoHeavy";
+  src: url("../fonts/LatoHeavy.eot?#iefix") format("embedded-opentype"), url("../fonts/LatoHeavy.woff") format("woff"), url("../fonts/LatoHeavy.ttf") format("truetype");
+  font-weight: 900;
+}
+
+html,
+body {
+	overflow-x: hidden;
+}
+
+p, h1, h2, h3, h4, form, ul {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #434343;
+	font-family: 'Lato';
+}
+
+section {
+	line-height: 0;
+}
+
+input[type="number"], input::-webkit-input-placeholder, input::-moz-placeholder, input:-ms-input-placeholder, input:-moz-placeholder {
+	font-size: 16px;
+	color: #434343;
+	font-family: "LatoBold";
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="text"] {
+	border: none;
+	outline: none !important;
+}
+
+.formselect-radio,
+.form-multiselect {
+	position: relative;
+	z-index: 1;
+}
+
+.formselect-radio__value,
+  .form-multiselect__value {
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	cursor: pointer;
+}
+
+.formselect-radio__list,
+  .form-multiselect__list {
+	position: absolute;
+	z-index: 1;
+	display: none;
+	top: -webkit-calc(100% - 2px);
+	top: calc(100% - 2px);
+	left: 0;
+	width: 100%;
+	max-height: 25vh;
+	overflow: auto;
+	margin: 0;
+	padding: 8px 0px;
+	background-color: #fff;
+}
+
+.formselect-radio__item,
+  .form-multiselect__item {
+	position: relative;
+	width: 100%;
+	list-style: none;
+}
+
+.formselect-radio__item:hover, .formselect-radio__item:focus,
+    .form-multiselect__item:hover,
+    .form-multiselect__item:focus {
+	background-color: #e8e8e8;
+}
+
+.formselect-radio__item input[type="radio"],
+    .formselect-radio__item input[type="checkbox"],
+    .form-multiselect__item input[type="radio"],
+    .form-multiselect__item input[type="checkbox"] {
+	display: none;
+}
+
+.formselect-radio__item input:checked + label,
+    .form-multiselect__item input:checked + label {
+	color: green;
+}
+
+.formselect-radio__item label,
+    .formselect-radio__item a,
+    .form-multiselect__item label,
+    .form-multiselect__item a {
+	position: relative;
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 8px 10px;
+	min-height: 19px;
+	line-height: 19px;
+	font-weight: 600;
+	cursor: pointer;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.formselect-radio__item a,
+    .form-multiselect__item a {
+	text-decoration: none;
+}
+
+.formselect-radio__item a.active,
+      .form-multiselect__item a.active {
+	color: green;
+}
+
+.formselect-radio__item a:hover, .formselect-radio__item a:focus,
+      .form-multiselect__item a:hover,
+      .form-multiselect__item a:focus {
+	text-decoration: none;
+}
+
+.formselect-radio__item_mark label,
+    .form-multiselect__item_mark label {
+	padding-left: 30px;
+}
+
+.formselect-radio__item_mark label::before, .formselect-radio__item_mark label::after,
+      .form-multiselect__item_mark label::before,
+      .form-multiselect__item_mark label::after {
+	content: '';
+	position: absolute;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+}
+
+.formselect-radio__item_mark label::before,
+      .form-multiselect__item_mark label::before {
+	left: 5px;
+	top: 7px;
+	display: block;
+	width: 20px;
+	height: 20px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 2px solid green;
+}
+
+.formselect-radio__item_mark label::after,
+      .form-multiselect__item_mark label::after {
+	left: 10px;
+	top: 12px;
+	display: none;
+	width: 10px;
+	height: 10px;
+	background-color: green;
+}
+
+.formselect-radio__item_mark input:checked + label,
+    .form-multiselect__item_mark input:checked + label {
+	color: green;
+}
+
+.formselect-radio__item_mark input:checked + label::after,
+      .form-multiselect__item_mark input:checked + label::after {
+	display: block;
+}
+
+.formselect-radio.open,
+  .form-multiselect.open {
+	z-index: 15;
+}
+
+.formselect-radio.open .formselect-radio__list,
+    .form-multiselect.open .formselect-radio__list {
+	display: block;
+}
+
+.form-wraper {
+	position: relative;
+	z-index: 1;
+}
+
+.form-wraper__label {
+	display: inline-block;
+	margin-bottom: 18px;
+	font-size: 12px;
+	line-height: 15px;
+	color: #434343;
+	cursor: pointer;
+}
+
+.form-wraper__button, .form-wraper__calendar {
+	position: absolute;
+	z-index: 2;
+	top: 35px;
+	right: 0px;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	margin: 0;
+	outline: none !important;
+	border: none;
+	cursor: pointer;
+}
+
+.form-wraper__calendar {
+	background-color: #d5e0fb;
+}
+
+.form-wraper__button {
+	background-color: transparent;
+}
+
+.form-wraper__button::before {
+	content: '';
+	position: absolute;
+	z-index: 3;
+	display: block;
+	width: 7px;
+	height: 7px;
+	top: 8px;
+	left: 10px;
+	border-bottom: 3px solid #434343;
+	border-left: 3px solid #434343;
+	-webkit-transform: translate(-50%, -50%) rotate(-45deg);
+	-ms-transform: translate(-50%, -50%) rotate(-45deg);
+	transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.form-box {
+	display: block;
+	background-color: transparent;
+	border-bottom: 2px solid #434343;
+	padding-bottom: 4px;
+	outline: none !important;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 19px;
+	color: #434343;
+	-webkit-transition: all .2s ease-out;
+	-o-transition: all .2s ease-out;
+	transition: all .2s ease-out;
+}
+
+.select-negotiation {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	height: 500px;
+	padding: 50px 20px;
+	background-color: #d5e0fb;
+}
+
+.select-negotiation__select {
+	display: block;
+	width: 240px;
+	margin-right: 60px;
+}
+
+.select-negotiation__select:last-child {
+	margin-right: 0;
+}
+
+@media (max-width: 1000px) {
+	.select-negotiation {
+		-webkit-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+	}
+
+	.select-negotiation__select {
+		width: 100%;
+		margin-bottom: 20px;
+		margin-right: 0;
+	}
+
+	.select-negotiation__select:last-child {
+		margin-bottom: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	.select-negotiation {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+
+.select {
+	position: relative;
+	z-index: 1;
+	display: inline-block;
+	width: 100%;
+	min-width: 240px;
+	padding-bottom: 4px;
+	border-bottom: 2px solid #434343;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.select:first-child {
+	margin-right: 34px;
+}
+
+.select__list {
+	position: absolute;
+	top: -webkit-calc(100% + 2px);
+	top: calc(100% + 2px);
+	left: 0;
+	display: none;
+	width: 100%;
+	background-color: #fff;
+}
+
+.select__item {
+	display: block;
+	margin: 0;
+	cursor: pointer;
+	list-style: none;
+}
+
+.select__item:hover, .select__item:focus {
+	background-color: #e8e8e8;
+}
+
+.select__item label {
+	display: inline-block;
+	padding: 8px 10px;
+	font-size: 15px;
+	line-height: 17px;
+	font-weight: 600;
+	width: -webkit-calc(100% - 10px);
+	width: calc(100% - 10px);
+}
