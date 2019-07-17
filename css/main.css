@@ -66,12 +66,14 @@ input[type="text"] {
 }
 
 .formselect-radio,
+.formselect-link,
 .form-multiselect {
 	position: relative;
 	z-index: 1;
 }
 
 .formselect-radio__value,
+  .formselect-link__value,
   .form-multiselect__value {
 	width: 100%;
 	overflow: hidden;
@@ -82,6 +84,7 @@ input[type="text"] {
 }
 
 .formselect-radio__list,
+  .formselect-link__list,
   .form-multiselect__list {
 	position: absolute;
 	z-index: 1;
@@ -98,6 +101,7 @@ input[type="text"] {
 }
 
 .formselect-radio__item,
+  .formselect-link__item,
   .form-multiselect__item {
 	position: relative;
 	width: 100%;
@@ -105,6 +109,8 @@ input[type="text"] {
 }
 
 .formselect-radio__item:hover, .formselect-radio__item:focus,
+    .formselect-link__item:hover,
+    .formselect-link__item:focus,
     .form-multiselect__item:hover,
     .form-multiselect__item:focus {
 	background-color: #e8e8e8;
@@ -112,18 +118,23 @@ input[type="text"] {
 
 .formselect-radio__item input[type="radio"],
     .formselect-radio__item input[type="checkbox"],
+    .formselect-link__item input[type="radio"],
+    .formselect-link__item input[type="checkbox"],
     .form-multiselect__item input[type="radio"],
     .form-multiselect__item input[type="checkbox"] {
 	display: none;
 }
 
 .formselect-radio__item input:checked + label,
+    .formselect-link__item input:checked + label,
     .form-multiselect__item input:checked + label {
 	color: green;
 }
 
 .formselect-radio__item label,
     .formselect-radio__item a,
+    .formselect-link__item label,
+    .formselect-link__item a,
     .form-multiselect__item label,
     .form-multiselect__item a {
 	position: relative;
@@ -140,27 +151,34 @@ input[type="text"] {
 }
 
 .formselect-radio__item a,
+    .formselect-link__item a,
     .form-multiselect__item a {
 	text-decoration: none;
 }
 
 .formselect-radio__item a.active,
+      .formselect-link__item a.active,
       .form-multiselect__item a.active {
 	color: green;
 }
 
 .formselect-radio__item a:hover, .formselect-radio__item a:focus,
+      .formselect-link__item a:hover,
+      .formselect-link__item a:focus,
       .form-multiselect__item a:hover,
       .form-multiselect__item a:focus {
 	text-decoration: none;
 }
 
 .formselect-radio__item_mark label,
+    .formselect-link__item_mark label,
     .form-multiselect__item_mark label {
 	padding-left: 30px;
 }
 
 .formselect-radio__item_mark label::before, .formselect-radio__item_mark label::after,
+      .formselect-link__item_mark label::before,
+      .formselect-link__item_mark label::after,
       .form-multiselect__item_mark label::before,
       .form-multiselect__item_mark label::after {
 	content: '';
@@ -170,6 +188,7 @@ input[type="text"] {
 }
 
 .formselect-radio__item_mark label::before,
+      .formselect-link__item_mark label::before,
       .form-multiselect__item_mark label::before {
 	left: 5px;
 	top: 7px;
@@ -182,6 +201,7 @@ input[type="text"] {
 }
 
 .formselect-radio__item_mark label::after,
+      .formselect-link__item_mark label::after,
       .form-multiselect__item_mark label::after {
 	left: 10px;
 	top: 12px;
@@ -192,21 +212,31 @@ input[type="text"] {
 }
 
 .formselect-radio__item_mark input:checked + label,
+    .formselect-link__item_mark input:checked + label,
     .form-multiselect__item_mark input:checked + label {
 	color: green;
 }
 
 .formselect-radio__item_mark input:checked + label::after,
+      .formselect-link__item_mark input:checked + label::after,
       .form-multiselect__item_mark input:checked + label::after {
 	display: block;
 }
 
+.formselect-radio.close .formselect-radio__list,
+  .formselect-link.close .formselect-radio__list,
+  .form-multiselect.close .formselect-radio__list {
+	display: none;
+}
+
 .formselect-radio.open,
+  .formselect-link.open,
   .form-multiselect.open {
 	z-index: 15;
 }
 
 .formselect-radio.open .formselect-radio__list,
+    .formselect-link.open .formselect-radio__list,
     .form-multiselect.open .formselect-radio__list {
 	display: block;
 }

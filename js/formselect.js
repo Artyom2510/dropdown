@@ -34,6 +34,29 @@
 		return FormfieldSelect;
 	}());
 
+	FormfieldSelect.prototype.close = function() {
+		var _ = this;
+		_.$select.removeClass('open');
+		_.$select.addClass('close');
+	}
+
+	FormfieldSelect.prototype.open = function() {
+		var _ = this;
+		_.$select.removeClass('close');
+		_.$select.addClass('open');
+	}
+	FormfieldSelect.prototype.reinit = function() {
+	}
+	
+	FormfieldSelect.prototype.add = function(string) {
+		var _ = this;
+		var option = _.option;
+		console.log(_.$item.length);
+		_.$list.append('<div class="' + option.itemSelector.slice(1) + '"><a href="#">' + string + '</a></div>');
+		_.reinit();
+		console.log(_.$item.length);
+	}
+
 	FormfieldSelect.prototype.init = function() {
 		var _ = this;
 		var option = _.option;
@@ -54,12 +77,12 @@
 		});
 
 		//Изначально закрыт
-		if( option.close ) {
+		if (option.close || !option.open) {
 			_.$select.removeClass('open');
 		}
 
 		//Изначально открыт
-		if( option.open ) {
+		if (option.open || !option.close) {
 			_.$select.addClass('open');
 		}
 

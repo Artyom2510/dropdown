@@ -59,6 +59,7 @@ input
 		outline: none !important
 
 .formselect-radio,
+.formselect-link,
 .form-multiselect
 	position: relative
 	z-index: 1
@@ -137,6 +138,9 @@ input
 				color: green
 				&::after
 					display: block
+	&.close
+		.formselect-radio__list
+			display: none
 	&.open
 		z-index: 15
 		.formselect-radio__list
