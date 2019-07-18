@@ -27,7 +27,6 @@
 			inputChecked = _.$item.find('input:checked');
 			itemLabel = _.$item.find('label');
 			itemLink = _.$item.find('a');
-			arrayOfLabel = [];
 
 			_.init();
 		}
@@ -44,17 +43,6 @@
 		var _ = this;
 		_.$select.removeClass('close');
 		_.$select.addClass('open');
-	}
-	FormfieldSelect.prototype.reinit = function() {
-	}
-	
-	FormfieldSelect.prototype.add = function(string) {
-		var _ = this;
-		var option = _.option;
-		console.log(_.$item.length);
-		_.$list.append('<div class="' + option.itemSelector.slice(1) + '"><a href="#">' + string + '</a></div>');
-		_.reinit();
-		console.log(_.$item.length);
 	}
 
 	FormfieldSelect.prototype.init = function() {
@@ -88,35 +76,25 @@
 
 		//Обычный селект
 		if( option.type === 'select' ) {
-			inputChecked.on('change', function() {
-				_.updateSelectRadioValue(this).removeClass('open');
-			});
-	
-			// Обработка инпутов, ссылок внутри выпадашки
-			itemLabel.on('click', function() {
-				_.updateSelectRadioValue(this).removeClass('open');
-			});
-			itemLink.on('click', function() {
-				_.$item.find('a').removeClass('active');
-				$(this).addClass('active');
-				_.updateSelectRadioValue(this).removeClass('open');
-			});
-	
+			_.changeInput();
+
 			 // Устанавливает value после загрузки страницы
 			$(document).ready(function() {
-				_.$item.find('input:checked').each(function(id, input) {
-					_.updateSelectRadioValue(input);
-				});
+				_.updateSelectRadioValue(_.$item.find('input:checked'));
 			});
+		}
+
+		//Селект на ссылках
+		if (option.type === 'link') {
+			_.clickLink();
+
 			$(document).ready(function() {
-				_.$item.find('a.active').each(function(id, input) {
-					_.updateSelectRadioValue(input);
-				});
+				_.updateSelectRadioValue(_.$item.find('a.active'));
 			});
 		}
 
 		//Мультиселект
-		if( option.type === 'multiple' ) {
+		if (option.type === 'multiple') {
 			// Устанавливает value после загрузки страницы
 			$(document).ready(function() {
 				inputChecked = _.$item.find('input:checked');
@@ -138,6 +116,29 @@
 		}
 
 	}
+
+	FormfieldSelect.prototype.add = function(string) {
+		var _ = this;
+		var option = _.option;
+		var itemClass = option.itemSelector.slice(1);
+		if (option.type === 'link') {
+			_.$list.append('<div class="' + itemClass + '"><a href="#">' + string + '</a></div>');
+			_.$item = _.$select.find(option.itemSelector);
+			_.clickLink();
+		} else {
+			var length = _.$item.length;
+			var name = _.$item.children('input').attr('name');
+			_.$list.append(
+				'<li class="' + itemClass + '">' +
+					'<input type="radio" id="' + name + '-' + length + '"name="' + name + '">' +
+					'<label for="' + name + '-' + length + '">' + string + '</label>' +
+				'</li>'
+			);
+			_.$item = _.$select.find(option.itemSelector);
+			_.changeInput();
+		}
+	}
+
 	FormfieldSelect.prototype.update = function() {
 		var _ = this;
 		$(document).on('click', function(event) {
@@ -157,16 +158,38 @@
 	FormfieldSelect.prototype.updateSelectRadioValue = function(input) {
 		var _ = this;
 		var text = $(input).next('label').text() || $(input).text();
-		var value = $(input).val();
 		_.$value.children().text(text);
 		_.$value.attr('title', text);
-		_.$input.val(value).trigger('change');
+		return _.$select;
+	}
+
+	FormfieldSelect.prototype.changeInput = function() {
+		var _ = this;
+		var itemInput = _.$item.find('input');
+		itemInput.on('change', function() {
+			_.updateSelectRadioValue(this);
+		});
+
+		itemInput.siblings('label').on('click', function() {
+			_.$select.removeClass('open');
+		});
+
+		return _.$select;
+	}
+
+	FormfieldSelect.prototype.clickLink = function() {
+		var _ = this;
+		_.$item.find('a').on('click', function() {
+			_.$item.find('a').removeClass('active');
+			$(this).addClass('active');
+			_.updateSelectRadioValue(this).removeClass('open');
+		});
 		return _.$select;
 	}
 
 	FormfieldSelect.prototype.updateSelectMultipleArrayOfLabel = function(inputCheckedLength, label) {
 		var _ = this, value;
-		var arrayOfLabel = new Array();
+		var arrayOfLabel = [];
 		for( i = 0; i < inputCheckedLength; i++) {
 			arrayOfLabel[i] = " " + $(label[i]).text();
 		}

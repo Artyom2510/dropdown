@@ -9,7 +9,7 @@ $('.formselect-radio').formfieldSelect();
 ### Опции
 
 Option | Type | Default | Description
------- | ---- | ------- | -----------
+------ | ---- | ------------- | -----------
 `open` | boolean | false | При значении равном `false` список закрыт (свернут)
 `close` | boolean | true | Аналогичен `open` `false`
 `disabled` | boolean | false | Отключает возможность открытие списка
