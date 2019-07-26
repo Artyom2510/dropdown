@@ -51,14 +51,14 @@
 
 		// Открытие и закрытие выпадашки по клику на нее
 		_.$button.on('click', function() {
-			if( !option.disabled ) {
+			if (!option.disabled) {
 				_.$select.toggleClass('open');
 			}
 			_.update();
 		});
 
 		_.$value.on('click', function() {
-			if( !option.disabled ) {
+			if (!option.disabled) {
 				_.$select.toggleClass('open');
 			}
 			_.update();
@@ -75,7 +75,7 @@
 		}
 
 		//Обычный селект
-		if( option.type === 'select' ) {
+		if (option.type === 'select') {
 			_.changeInput();
 
 			 // Устанавливает value после загрузки страницы
@@ -125,17 +125,36 @@
 			_.$list.append('<div class="' + itemClass + '"><a href="#">' + string + '</a></div>');
 			_.$item = _.$select.find(option.itemSelector);
 			_.clickLink();
-		} else {
+		} else if (option.type === 'multiple') {
 			var length = _.$item.length;
 			var name = _.$item.children('input').attr('name');
+			var fullName = name.substr(0, name.length - 1) + "-" + length;
+			console.log(fullName);
 			_.$list.append(
 				'<li class="' + itemClass + '">' +
-					'<input type="radio" id="' + name + '-' + length + '"name="' + name + '">' +
-					'<label for="' + name + '-' + length + '">' + string + '</label>' +
+					'<input type="checkbox" id="' + fullName + '"name="' + fullName + '"value="' + length + '">' +
+					'<label for="' + fullName + '">' + string + '</label>' +
 				'</li>'
 			);
 			_.$item = _.$select.find(option.itemSelector);
-			_.changeInput();
+			_.$item.find('input').on('change', function() {
+				checkedInput = _.$item.find('input:checked');
+				inputCheckedLength = checkedInput.length;
+				var label = checkedInput.siblings('label');
+				_.updateSelectMultipleValue(inputCheckedLength, label);
+				_.updateSelectMultipleArrayOfLabel(inputCheckedLength, label);
+			});
+		} else {
+			var length = _.$item.length;
+			var name = _.$item.children('input').attr('name');
+		_.$list.append(
+			'<li class="' + itemClass + '">' +
+				'<input type="radio" id="' + name + '-' + length + '"name="' + name + '"value="' + length + '">' +
+				'<label for="' + name + '-' + length + '">' + string + '</label>' +
+			'</li>'
+		);
+		_.$item = _.$select.find(option.itemSelector);
+		_.changeInput();
 		}
 	}
 
@@ -144,8 +163,8 @@
 		$(document).on('click', function(event) {
 			var $formselectRadioAll = _.$select.filter('.open');
 			var $formselectRadio = $(event.target).closest(_.$select.filter('.open'));
-			if( $formselectRadio.length ) { // Если клик внутри formselect-radio
-				if( $formselectRadioAll.length > 1 ) // Если было открыто больше 1 formselect-radio
+			if ($formselectRadio.length) { // Если клик внутри formselect-radio
+				if ($formselectRadioAll.length > 1) // Если было открыто больше 1 formselect-radio
 					$formselectRadioAll.not($formselectRadio).removeClass('open'); // Закрытие всех formselect-radio кроме только что открытого
 				return;
 			}
@@ -157,9 +176,11 @@
 	// Меняет value выпадашки
 	FormfieldSelect.prototype.updateSelectRadioValue = function(input) {
 		var _ = this;
+		var value = $(input).val();
 		var text = $(input).next('label').text() || $(input).text();
 		_.$value.children().text(text);
 		_.$value.attr('title', text);
+		_.$input.val(value);
 		return _.$select;
 	}
 
@@ -190,12 +211,17 @@
 	FormfieldSelect.prototype.updateSelectMultipleArrayOfLabel = function(inputCheckedLength, label) {
 		var _ = this, value;
 		var arrayOfLabel = [];
-		for( i = 0; i < inputCheckedLength; i++) {
-			arrayOfLabel[i] = " " + $(label[i]).text();
+		if (inputCheckedLength) {
+			arrayOfLabel[0] = $(label[0]).text();
+			for (i = 1; i < inputCheckedLength; i++) {
+				arrayOfLabel[i] = " " + $(label[i]).text();
+			}
+			value = arrayOfLabel;
+		} else {
+			value = 'ничего не выбранно';
 		}
-		if( arrayOfLabel.length ) value = arrayOfLabel;
-		else value = 'ничего не выбранно';
 		_.$value.attr('title', value);
+		_.$input.val(value);
 		return _.$select;
 	}
 
@@ -203,13 +229,13 @@
 		var _ = this, text;
 		var substr1 = 'выбран';
 		var substr2 = ' пункт';
-		if( !length ) {
+		if (!length) {
 			text = "ничего не выбранно";
-		} else if( length === 1 ) {
+		} else if (length === 1) {
 			text = $(label).text();
-		} else if( length % 10 === 1 && length > 20 ) {
+		} else if (length % 10 === 1 && length > 20) {
 			text = substr1 + " " + length + " " + substr2;
-		} else if( (length % 10 === 2 || length % 10 === 3 || length % 10 === 4) && ( length < 5 || length > 21 ) ) {
+		} else if ((length % 10 === 2 || length % 10 === 3 || length % 10 === 4) && (length < 5 || length > 21)) {
 			text = substr1 + "но " + length + substr2 +'a\n'; 
 		} else {
 			text = substr1 + "но " + length + substr2 +'ов\n';
@@ -226,13 +252,13 @@
 			i,
 			ret;
 		
-		for( i = 0; i < l; i++ ) {
-			if( typeof opt == 'object' || typeof opt == 'undefined' ) {
+		for (i = 0; i < l; i++) {
+			if (typeof opt == 'object' || typeof opt == 'undefined') {
 				_[i].formfieldSelect = new FormfieldSelect(_[i], opt);
 			} else {
 				ret = _[i].formfieldSelect[opt].apply(_[i].formfieldSelect, args);
 			}
-			if( typeof ret != 'undefined' ) return ret;
+			if (typeof ret != 'undefined') return ret;
 		}
 		return _;
 	}

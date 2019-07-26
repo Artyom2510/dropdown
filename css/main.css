@@ -252,7 +252,6 @@ input[type="text"] {
 	font-size: 12px;
 	line-height: 15px;
 	color: #434343;
-	cursor: pointer;
 }
 
 .form-wraper__button, .form-wraper__calendar {
