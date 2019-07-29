@@ -15,7 +15,10 @@
 				inputSelector: '.formselect-radio__input',
 				listSelector: '.formselect-radio__list',
 				itemSelector: '.formselect-radio__item',
+				templateSelectValue: _.templateDefaultSelectValue,
+				templateSelectInput: _.templateDefaultSelectInput
 			};
+
 			_.option = $.extend({}, _.initOption, settings);
 			
 			_.$select = $(element);
@@ -24,10 +27,8 @@
 			_.$input = _.$select.find(_.option.inputSelector);
 			_.$list = _.$select.find(_.option.listSelector);
 			_.$item = _.$select.find(_.option.itemSelector);
-			inputChecked = _.$item.find('input:checked');
-			itemLabel = _.$item.find('label');
-			itemLink = _.$item.find('a');
-
+			_.arrayOfLabel = [];
+	
 			_.init();
 		}
 		return FormfieldSelect;
@@ -64,85 +65,99 @@
 			_.update();
 		});
 
-		//Изначально закрыт
+		// Изначально закрыт
 		if (option.close || !option.open) {
 			_.$select.removeClass('open');
 		}
 
-		//Изначально открыт
+		// Изначально открыт
 		if (option.open || !option.close) {
 			_.$select.addClass('open');
 		}
 
-		//Обычный селект
-		if (option.type === 'select') {
-			_.changeInput();
-
-			 // Устанавливает value после загрузки страницы
-			$(document).ready(function() {
-				_.updateSelectRadioValue(_.$item.find('input:checked'));
+		if( option.type === 'link' ) {
+			_.$item.find('a.active').each(function(id, link) {
+				var label = $(link).text();
+				_.updateArrayOfLabel('add', { label: label, value: null });
+			});
+		}
+		if( option.type === 'select' || option.type === 'multiple' ) {
+			_.$item.find('input:checked').each(function(id, input) {
+				var label = $(input).parent().children('label').text();
+				var value = $(input).val();
+				_.updateArrayOfLabel('add', { label: label, value: value });
 			});
 		}
 
-		//Селект на ссылках
-		if (option.type === 'link') {
-			_.clickLink();
-
-			$(document).ready(function() {
-				_.updateSelectRadioValue(_.$item.find('a.active'));
-			});
-		}
-
-		//Мультиселект
-		if (option.type === 'multiple') {
-			// Устанавливает value после загрузки страницы
-			$(document).ready(function() {
-				inputChecked = _.$item.find('input:checked');
-				inputCheckedLength = inputChecked.length;
-				inputChecked.each(function() {
-					var label = inputChecked.siblings('label');
-					_.updateSelectMultipleValue(inputCheckedLength, label);
-					_.updateSelectMultipleArrayOfLabel(inputCheckedLength, label);
-				});
-			});
-
-			_.multipleChange();
-		}
-
+		$(document).ready(function() {
+			_.updateSelectInput(); // Обновляет value
+			_.updateSelectValue(); // Обновляет input
+			_.addEvents(); // Обновляет события
+		});
 	}
 
-	FormfieldSelect.prototype.add = function(string) {
+	FormfieldSelect.prototype.add = function(attr) {
 		var _ = this;
 		var option = _.option;
-		var itemClass = option.itemSelector.slice(1);
-		if (option.type === 'link') {
-			_.$list.append('<div class="' + itemClass + '"><a href="#">' + string + '</a></div>');
-			_.$item = _.$select.find(option.itemSelector);
-			_.clickLink();
-		} else if (option.type === 'multiple') {
-			var length = _.$item.length;
-			var name = _.$item.children('input').attr('name');
-			var fullName = name.substr(0, name.length - 1) + "-" + length;
-			console.log(fullName);
-			_.$list.append(
-				'<li class="' + itemClass + '">' +
-					'<input type="checkbox" id="' + fullName + '"name="' + fullName + '"value="' + length + '">' +
-					'<label for="' + fullName + '">' + string + '</label>' +
-				'</li>'
-			);
-			_.$item = _.$select.find(option.itemSelector);
-			_.multipleChange();
-		} else {
-			var length = _.$item.length;
-			var name = _.$item.children('input').attr('name');
-		_.$list.append(
-			'<li class="' + itemClass + '">' +
-				'<input type="radio" id="' + name + '-' + length + '"name="' + name + '"value="' + length + '">' +
-				'<label for="' + name + '-' + length + '">' + string + '</label>' +
-			'</li>'
-		);
+
+		var type = option.type;
+		var classNameList = _.$item.eq(0).attr('class').split(/\s+/);
+		var className = '';
+		var label = '';
+		var name = type !== 'link' ? _.$item.children('input').attr('name') : false;
+		var value = _.$item.length;
+
+		if (typeof attr === 'object') {
+			if (attr.className) {
+				if (typeof attr.className === 'object') {
+					attr.className.forEach(function(className) {
+						classNameList.push(className);
+					});
+				} else if (typeof attr.className === 'string') {
+					classNameList.push(attr.className);
+				}
+			}
+			if (attr.value) {
+				value = attr.value;
+			}
+			label = attr.label || attr.value || value;
+		} else if (typeof attr === 'string') {
+			label = attr;
+		}
+		className = classNameList.join(' ');
+
+		var $item = _.templateItem(className, label, name, value);
+		_.$list.append($item);
 		_.$item = _.$select.find(option.itemSelector);
-		_.changeInput();
+		_.addEvents();
+	}
+
+	FormfieldSelect.prototype.templateItem = function(className, label, name, value) {
+		var _ = this;
+
+		switch(_.option.type) {
+			case 'link':
+				return $(
+					'<div class="' + className + '">' +
+						'<a href="#">' + label + '</a>' +
+					'</div>'
+				);
+			case 'multiple':
+				return $(
+					'<li class="' + className + '">' +
+						'<input type="checkbox" id="' + name + '"name="' + name + '"value="' + value + '">' +
+						'<label for="' + name + '">' + label + '</label>' +
+					'</li>'
+				);
+			case 'select':
+				return $(
+					'<li class="' + className + '">' +
+						'<input type="radio" id="' + name + '-' + value + '"name="' + name + '"value="' + value + '">' +
+						'<label for="' + name + '-' + value + '">' + label + '</label>' +
+					'</li>'
+				);
+			default:
+				return false;
 		}
 	}
 
@@ -160,79 +175,125 @@
 			event.stopPropagation();
 		});
 	}
-
-	// Меняет value выпадашки
-	FormfieldSelect.prototype.updateSelectRadioValue = function(input) {
+	
+	FormfieldSelect.prototype.updateArrayOfLabel = function(type, prop) {
 		var _ = this;
-		var value = $(input).val();
-		var text = $(input).next('label').text() || $(input).text();
-		_.$value.children().text(text);
-		_.$value.attr('title', text);
-		_.$input.val(value);
-		return _.$select;
-	}
 
-	FormfieldSelect.prototype.changeInput = function() {
-		var _ = this;
-		var itemInput = _.$item.find('input');
-		itemInput.on('change', function() {
-			_.updateSelectRadioValue(this);
-		});
+		var label = prop.label;
+		var value = prop.value;
 
-		itemInput.siblings('label').on('click', function() {
-			_.$select.removeClass('open');
-		});
-
-		return _.$select;
-	}
-
-	FormfieldSelect.prototype.clickLink = function() {
-		var _ = this;
-		_.$item.find('a').on('click', function() {
-			_.$item.find('a').removeClass('active');
-			$(this).addClass('active');
-			_.updateSelectRadioValue(this).removeClass('open');
-		});
-		return _.$select;
-	}
-
-	FormfieldSelect.prototype.multipleChange = function() {
-		var _ = this;
-		_.$item.find('input').on('change', function() {
-			checkedInput = _.$item.find('input:checked');
-			inputCheckedLength = checkedInput.length;
-			var label = checkedInput.siblings('label');
-			_.updateSelectMultipleValue(inputCheckedLength, label);
-			_.updateSelectMultipleArrayOfLabel(inputCheckedLength, label);
-		});
-		return _.$select;
-	}
-
-	FormfieldSelect.prototype.updateSelectMultipleArrayOfLabel = function(inputCheckedLength, label) {
-		var _ = this, value;
-		var arrayOfLabel = [];
-		if (inputCheckedLength) {
-			arrayOfLabel[0] = $(label[0]).text();
-			for (i = 1; i < inputCheckedLength; i++) {
-				arrayOfLabel[i] = " " + $(label[i]).text();
-			}
-			value = arrayOfLabel;
-		} else {
-			value = 'ничего не выбранно';
+		switch(type) {
+			case 'add':
+				_.arrayOfLabel.push({
+					label: label,
+					value: value
+				});
+				break;
+			case 'update':
+				_.arrayOfLabel[0].label = label;
+				_.arrayOfLabel[0].value = value;
+				break;
+			case 'remove':
+				_.arrayOfLabel = _.arrayOfLabel.filter(function(option) {
+					return option.value !== value;
+				});
+				break;
+			default:
+				break;
 		}
-		_.$value.attr('title', value);
-		_.$input.val(value);
-		return _.$select;
 	}
 
-	FormfieldSelect.prototype.updateSelectMultipleValue = function(length, label) {
-		var _ = this, text;
+	FormfieldSelect.prototype.addEvents = function() {
+		var _ = this;
+
+		switch(_.option.type) {
+			case 'link':
+					_.$item.find('a').each(function(id, link) {
+					if( $(link).data('event') !== 'add' ) {
+						$(link)
+							.data('event', 'add')
+							.on('click', function() {
+								_.$item.find('a').removeClass('active');
+								$(this).addClass('active');
+								_.$select.removeClass('open');
+								
+								var type = _.arrayOfLabel.length ? 'update' : 'add';
+								var label = $(this).text();
+			
+								_.updateArrayOfLabel(type, { label: label, value: null });
+								_.changeOption();
+							});
+					}
+				});
+				break;
+			case 'multiple':
+				var $itemInput = _.$item.find('input');
+				$itemInput.each(function(id, input) {
+					if( $(input).data('event') !== 'add' ) {
+						$(input)
+							.data('event', 'add')
+							.on('change', function() {
+								var type = $(this).is(':checked') ? 'add' : 'remove';
+								var label = $(this).siblings('label').text();
+								var value = $(this).val();
+			
+								_.updateArrayOfLabel(type, { label: label, value: value });
+								_.changeOption();
+							});
+					}
+				});
+				break;
+			case 'select':
+				var $itemInput = _.$item.find('input');
+				var $itemLabel = _.$item.find('label');
+				$itemInput.each(function(id, input) {
+					if( $(input).data('event') !== 'add' ) {
+						$(input)
+							.data('event', 'add')
+							.on('change', function() {
+								var type = _.arrayOfLabel.length ? 'update' : 'add';
+								var label = $(this).siblings('label').text();
+								var value = $(this).val();
+								
+								_.updateArrayOfLabel(type, { label: label, value: value });
+								_.changeOption();
+							});
+					}
+				});
+				$itemLabel.each(function(id, label) {
+					if( $(label).data('event') !== 'add' ) {
+						$(label)
+							.data('event', 'add')
+							.on('click', function() {
+								_.$select.removeClass('open');
+			
+								_.changeOption();
+							});
+					}
+				});
+				break;
+			default:
+				break;
+		}
+	}
+
+	FormfieldSelect.prototype.changeOption = function() {
+		var _ = this;
+		_.updateSelectInput();
+		_.updateSelectValue();
+	}
+
+	FormfieldSelect.prototype.templateDefaultSelectValue = function(arr) {
+		var _ = this;
+		var length = arr.length;
+		var text = '';
+		
 		var substr1 = 'выбран';
 		var substr2 = ' пункт';
 		if (!length) {
 			text = "ничего не выбранно";
 		} else if (length === 1) {
-			text = $(label).text();
+			text = arr[0].label;
 		} else if (length % 10 === 1 && length > 20) {
 			text = substr1 + " " + length + " " + substr2;
 		} else if ((length % 10 === 2 || length % 10 === 3 || length % 10 === 4) && (length < 5 || length > 21)) {
@@ -240,8 +301,41 @@
 		} else {
 			text = substr1 + "но " + length + substr2 +'ов\n';
 		}
-		_.$value.children().text(text);
-		return _.$select;
+
+		return text;
+	}
+
+	FormfieldSelect.prototype.updateSelectValue = function() {
+		var _ = this;
+		var value = _.option.templateSelectValue(_.arrayOfLabel);
+
+		_.$value.children().text(value);
+	}
+
+	FormfieldSelect.prototype.templateDefaultSelectInput = function(arr) {
+		var _ = this;
+		var length = arr.length;
+		var text = '';
+
+		if (!length) {
+			text = "ничего не выбранно";
+		} else if (length === 1) {
+			text = arr[0].label;
+		} else {
+			text = arr.reduce(function(res, option, id) {
+				return res + (id !== 0 ? ', ' : '') + option.label;
+			}, '');
+		}
+
+		return text;
+	}
+
+	FormfieldSelect.prototype.updateSelectInput = function() {
+		var _ = this;
+		var value = _.option.templateSelectInput(_.arrayOfLabel);
+
+		_.$value.attr('title', value);
+		_.$input.val(value);
 	}
 
 	$.fn.formfieldSelect = function() {
