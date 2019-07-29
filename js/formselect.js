@@ -106,13 +106,7 @@
 				});
 			});
 
-			_.$item.find('input').on('change', function() {
-				checkedInput = _.$item.find('input:checked');
-				inputCheckedLength = checkedInput.length;
-				var label = checkedInput.siblings('label');
-				_.updateSelectMultipleValue(inputCheckedLength, label);
-				_.updateSelectMultipleArrayOfLabel(inputCheckedLength, label);
-			});
+			_.multipleChange();
 		}
 
 	}
@@ -137,13 +131,7 @@
 				'</li>'
 			);
 			_.$item = _.$select.find(option.itemSelector);
-			_.$item.find('input').on('change', function() {
-				checkedInput = _.$item.find('input:checked');
-				inputCheckedLength = checkedInput.length;
-				var label = checkedInput.siblings('label');
-				_.updateSelectMultipleValue(inputCheckedLength, label);
-				_.updateSelectMultipleArrayOfLabel(inputCheckedLength, label);
-			});
+			_.multipleChange();
 		} else {
 			var length = _.$item.length;
 			var name = _.$item.children('input').attr('name');
@@ -204,6 +192,18 @@
 			_.$item.find('a').removeClass('active');
 			$(this).addClass('active');
 			_.updateSelectRadioValue(this).removeClass('open');
+		});
+		return _.$select;
+	}
+
+	FormfieldSelect.prototype.multipleChange = function() {
+		var _ = this;
+		_.$item.find('input').on('change', function() {
+			checkedInput = _.$item.find('input:checked');
+			inputCheckedLength = checkedInput.length;
+			var label = checkedInput.siblings('label');
+			_.updateSelectMultipleValue(inputCheckedLength, label);
+			_.updateSelectMultipleArrayOfLabel(inputCheckedLength, label);
 		});
 		return _.$select;
 	}
