@@ -108,14 +108,6 @@ input[type="text"] {
 	list-style: none;
 }
 
-.formselect-radio__item:hover, .formselect-radio__item:focus,
-    .formselect-link__item:hover,
-    .formselect-link__item:focus,
-    .form-multiselect__item:hover,
-    .form-multiselect__item:focus {
-	background-color: #e8e8e8;
-}
-
 .formselect-radio__item input[type="radio"],
     .formselect-radio__item input[type="checkbox"],
     .formselect-link__item input[type="radio"],
@@ -148,6 +140,21 @@ input[type="text"] {
 	cursor: pointer;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	outline: none !important;
+}
+
+.formselect-radio__item label:hover, .formselect-radio__item label:focus,
+      .formselect-radio__item a:hover,
+      .formselect-radio__item a:focus,
+      .formselect-link__item label:hover,
+      .formselect-link__item label:focus,
+      .formselect-link__item a:hover,
+      .formselect-link__item a:focus,
+      .form-multiselect__item label:hover,
+      .form-multiselect__item label:focus,
+      .form-multiselect__item a:hover,
+      .form-multiselect__item a:focus {
+	background-color: #e8e8e8;
 }
 
 .formselect-radio__item a,
@@ -244,6 +251,11 @@ input[type="text"] {
 .form-wraper {
 	position: relative;
 	z-index: 1;
+	-webkit-transition: -webkit-box-shadow .3s ease;
+	transition: -webkit-box-shadow .3s ease;
+	-o-transition: box-shadow .3s ease;
+	transition: box-shadow .3s ease;
+	transition: box-shadow .3s ease, -webkit-box-shadow .3s ease;
 }
 
 .form-wraper__label {
@@ -254,7 +266,7 @@ input[type="text"] {
 	color: #434343;
 }
 
-.form-wraper__button, .form-wraper__calendar {
+.form-wraper__button {
 	position: absolute;
 	z-index: 2;
 	top: 35px;
@@ -266,14 +278,11 @@ input[type="text"] {
 	outline: none !important;
 	border: none;
 	cursor: pointer;
-}
-
-.form-wraper__calendar {
-	background-color: #d5e0fb;
-}
-
-.form-wraper__button {
 	background-color: transparent;
+}
+
+.form-wraper__button:focus {
+	outline: 2px solid grey !important;
 }
 
 .form-wraper__button::before {
@@ -329,6 +338,7 @@ input[type="text"] {
 	display: block;
 	width: 240px;
 	margin-right: 60px;
+	outline: none !important;
 }
 
 .select-negotiation__select:last-child {
@@ -358,51 +368,4 @@ input[type="text"] {
 		padding-left: 15px;
 		padding-right: 15px;
 	}
-}
-
-.select {
-	position: relative;
-	z-index: 1;
-	display: inline-block;
-	width: 100%;
-	min-width: 240px;
-	padding-bottom: 4px;
-	border-bottom: 2px solid #434343;
-	background-color: transparent;
-	cursor: pointer;
-}
-
-.select:first-child {
-	margin-right: 34px;
-}
-
-.select__list {
-	position: absolute;
-	top: -webkit-calc(100% + 2px);
-	top: calc(100% + 2px);
-	left: 0;
-	display: none;
-	width: 100%;
-	background-color: #fff;
-}
-
-.select__item {
-	display: block;
-	margin: 0;
-	cursor: pointer;
-	list-style: none;
-}
-
-.select__item:hover, .select__item:focus {
-	background-color: #e8e8e8;
-}
-
-.select__item label {
-	display: inline-block;
-	padding: 8px 10px;
-	font-size: 15px;
-	line-height: 17px;
-	font-weight: 600;
-	width: -webkit-calc(100% - 10px);
-	width: calc(100% - 10px);
 }

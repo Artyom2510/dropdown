@@ -50,6 +50,28 @@
 		var _ = this;
 		var option = _.option;
 
+		var allItems = $('.formselect-radio__item a');
+		var lengthItems = allItems.length;
+		var currentItem = allItems.index($('.active'));
+
+		$(document).on('keydown', function(e) {
+			if (_.$select.focus()) {
+				switch(e.keyCode) {
+					// case 13:
+					// 	_.$select.addClass('open');
+					// 	break;
+					case 38:
+					case 87:
+						allItems.eq(currentItem > 0 ? --currentItem : 0).focus();
+						break;
+					case 40:
+					case 83:
+						allItems.eq(currentItem < lengthItems - 1 ? ++currentItem : lengthItems - 1).focus();
+						break;
+				}
+			}
+		});
+
 		// Открытие и закрытие выпадашки по клику на нее
 		_.$button.on('click', function() {
 			if (!option.disabled) {
@@ -346,7 +368,7 @@
 			i,
 			ret;
 		
-		for (i = 0; i < l; i++) {
+		for(i = 0; i < l; i++) {
 			if (typeof opt == 'object' || typeof opt == 'undefined') {
 				_[i].formfieldSelect = new FormfieldSelect(_[i], opt);
 			} else {
